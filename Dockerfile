@@ -1,5 +1,6 @@
 # Usamos una imagen base con Python
-FROM ubuntu:latest
+FROM python:3.13-slim-bookworm
+
 
 # Establece el directorio de trabajo
 WORKDIR /app
@@ -9,8 +10,8 @@ COPY requirements.txt .
 COPY app2.py .
 
  # Si necesitas Python y pip e intalar psycopg2
-RUN apt-get update && \
-    apt-get install python3 python3-pip libpq-dev python3-dev gcc -y --no-install-recommends
+#RUN apt-get update && \
+#    apt-get install python3 python3-pip libpq-dev python3-dev gcc -y --no-install-recommends
     #apk add libpq-dev python3 py3-pip  python3-dev 
     #-y --no-install-recommends 
 

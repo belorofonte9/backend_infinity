@@ -1,31 +1,45 @@
-version: '3.8'
+version: '3.0'
 
 services:
   db:
-    image: postgres:13
+    image: postgres:15
     container_name: pg_db
     environment:
+      POSTGRES_HOST: db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admon
       POSTGRES_DB: backend
     ports:
       - "5432:5432"
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data  # Persistencia personalizada
+      - ./data/postgres:/var/lib/postgresql@15/data  # Persistencia personalizada
     networks:
       - mynetwork
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: machetearte58@gamil.com
+      PGADMIN_DEFAULT_PASSWORD: admon
+    volumes:
+      - /data/pgadmin:/var/lib/pgadmin
   app:
     build:
-      context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile 
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admon
+      POSTGRES_DB: backend
     depends_on:
       - db
     networks:
       - mynetwork
     volumes:
       - .:/app
-
-
 
 networks:
   mynetwork:
